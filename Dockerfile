@@ -2,9 +2,9 @@ FROM ubuntu:24.10
 
 RUN sudo apt install default-jre
 
-RUN wget https://get.jenkins.io/war-stable/2.452.1/jenkins.war
-
 ENV JENKINS_HOME /var/jenkins_home
+
+RUN wget https://get.jenkins.io/war-stable/2.452.1/jenkins.war
 
 WORKDIR ${JENKINS_HOME}
 

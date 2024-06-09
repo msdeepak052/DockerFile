@@ -1,6 +1,8 @@
 FROM ubuntu:24.10
 
-RUN sudo apt install default-jre
+RUN apt-get update && \
+    apt-get install -y openjdk-11-jdk && \
+    rm -rf /var/lib/apt/lists/*
 
 ENV JENKINS_HOME /var/jenkins_home
 
@@ -13,7 +15,6 @@ ARG group=jenkins
 ARG uid=1000
 ARG gid=1000
 ARG http_port=8080
-ARG agent_port=50000
 
 RUN groupadd -g ${gid} ${group} \
     && useradd -d "$JENKINS_HOME" -u ${uid} -g ${gid} -m -s /bin/bash ${user}
@@ -21,5 +22,7 @@ RUN groupadd -g ${gid} ${group} \
 RUN chown -R ${user} "$JENKINS_HOME" /usr/share/jenkins/ref	
 
 USER ${user}
+
+EXPOSE ${http_port}
 
 CMD["java","-jar","jenkins.war"]
